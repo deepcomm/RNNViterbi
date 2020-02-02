@@ -7,7 +7,7 @@ from commpy.utilities import *
 
 import math
 import matplotlib
-matplotlib.use('pdf')
+#matplotlib.use('pdf')
 import matplotlib.pyplot as plt
 
 import time
@@ -23,7 +23,7 @@ def generate_examples(k_test=1000, step_of_history=200, SNR=0, code_rate = 2):
 
     trellis1 = cc.Trellis(np.array([2]), np.array([[7,5]]))
     trellis2 = cc.Trellis(np.array([2]), np.array([[7,5]]))
-    print('trellis: cc.Trellis(np.array([2]), np.array([[7,5]]))') # G(D) corresponding to the convolutional encoder
+    #print('trellis: cc.Trellis(np.array([2]), np.array([[7,5]]))') # G(D) corresponding to the convolutional encoder
 
     tic = time.time()
 
@@ -78,7 +78,7 @@ def generate_examples(k_test=1000, step_of_history=200, SNR=0, code_rate = 2):
 
     toc = time.time()
 
-    print('time:', toc-tic)
+    #print('time to generate test examples:', toc-tic)
 
     return (noisy_codewords, true_messages, target_true_messages)
 

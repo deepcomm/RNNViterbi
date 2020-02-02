@@ -42,16 +42,13 @@ def get_args():
     parser = argparse.ArgumentParser()
 
     parser.add_argument('-if_training', type=bool, default=False)
+    parser.add_argument('-path_trained_model', type=str, default="TrainedModel_75.h5")
 
-    # 
+    # NN decoder parameters 
     parser.add_argument('-rx_type', choices=['rnn-lstm', 'rnn-gru', 'cnn'], default='rnn-gru')
     parser.add_argument('-num_rx_layer', type=int, default=2)
     parser.add_argument('-rnn_rx_dir', choices=['sd','bd'], default='bd')
     parser.add_argument('-rnn_n_unit', type=int, default=50)
-
-    parser.add_argument('-path_trained_model', type=str, default="../Viterbi_Train_Final/TrainedModel_75.h5")
-
-    parser.add_argument('-trainType', choices=['mix', '0', '2'], default='mix') 
 
     args = parser.parse_args()
 
@@ -67,21 +64,18 @@ training = args.if_training # If False: load trained model and just test. If Tru
 
 # Network Parameters
 test_ratio = 1
-num_epoch = 15#0#0#0
+num_epoch = 12
 learning_rate = 1e-2                # one suggestion is LR 0.001 and batch size 10
 
 train_batch_size = 32              # Many2Many better use small batch (10)
 test_batch_size  = 100
-dropout_rate = 1.0                   # Dropout !=1.0 doesn't work!
-casuality = 'loss'                   # strict is x[:t-1] -> y[t], loss is x[:t] -> y[t], TBD
 
 # Tx Encoder Parameters
-tx_enc_type = 'conv'                 # 'conv', 'rnn-lstm', 'rnn-gru', 'cnn'
 code_rate   =  2                     #  2,3
 
-k = 10000                            # Number of total message bits for training. For training, set to 10000000. For testing, set to 1000000
+k = 10000000                            # Number of total message bits for training. For training, set to 10000000. For testing, set to 1000000
 step_of_history = 200                # Length of each message bit sequence
-k_test = 1000                        # Number of total message bits for testing. 
+k_test = 100000                        # Number of total message bits for testing. 
 
 
 # Rx Decoder Parameters
@@ -95,9 +89,7 @@ print('Message bit is ', k)
 print('learning rate is ', learning_rate)
 print('batch size is ', train_batch_size)
 print('step of history is ', step_of_history)
-print('dropout is ', dropout_rate)
 print('The RNN has ', rx_direction, args.rx_type, 'with ', args.num_rx_layer, 'layers with ', num_hunit_rnn_rx, ' unit')
-print( 'We are using regularizer ', regularizer.get_config())
 print('*'*100)
 
 def errors(y_true, y_pred):
@@ -107,18 +99,15 @@ def errors(y_true, y_pred):
 # Setup LR decay
 def scheduler(epoch):
 
-    if epoch > 5 and epoch <=7:
+    if epoch > 4 and epoch <=6:
         print('changing by /10 lr')
         lr = learning_rate/10.0
-    elif epoch >7 and epoch <=10:
+    elif epoch > 6 and epoch <=9:
         print('changing by /100 lr')
         lr = learning_rate/100.0
-    elif epoch >10 and epoch <=13:
-        print('changing by /1000 lr')
-        lr = learning_rate/1000.0
-    elif epoch > 13:
-        print('changing by /10000 lr')
-        lr = learning_rate/10000.0
+    elif epoch > 9 and epoch <=12:
+        print('changing by /100 lr')
+        lr = learning_rate/100.0
     else:
         lr = learning_rate
 
@@ -190,7 +179,7 @@ if training == False: # Load pre-trained model
         
 else: 
     # Generate training examples
-    noisy_codewords, true_messages = generate_examples() 
+    noisy_codewords, true_messages, _ = generate_examples(k_test=k, step_of_history=200, SNR=0, code_rate = 2) 
     print('Training examples are generated')
 
     train_history = model.fit(x=noisy_codewords, y=true_messages, batch_size=train_batch_size,
@@ -248,7 +237,7 @@ for idx in range(0,SNR_points):
     
     bler = sum(np.sum(tp0,axis=1)>0)*1.0/(target.shape[0])# model.evaluate(X_feed_test, X_message_test, batch_size=10)
 
-
+    print('*** SNR', TestSNR)
     print('test nn ber', ber[0])
     print('test nn bler', bler)    
 
@@ -266,8 +255,16 @@ print(ber_collect)
 print('bler_collect')
 print(bler_collect)
 
-plt.plot(snr_collect,ber_collect)
+# Viterbi performance
+viterbi_snr_collect = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+viterbi_ber_collect = [0.09686600000000001, 0.04835100000000003, 0.018962999999999952, 0.005461000000000049, 0.0013250000000000206, 0.0003109999999999502, 5.999999999994898e-05]
+vitebi_bler_collect = [0.999, 0.9796, 0.8278, 0.4534, 0.1612, 0.046, 0.0106]
+
+
+plt.plot(snr_collect,ber_collect,'r')
+plt.plot(viterbi_snr_collect,viterbi_ber_collect,'b')
+plt.xlabel('SNR')
+plt.ylabel('BER')
+
 plt.yscale('log')
 plt.show()
-
-
