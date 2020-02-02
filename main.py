@@ -1,12 +1,8 @@
-# New training code. 
-
 import numpy as np
 import math
 import os
 
-# from keras import backend as K
-from tensorflow.python.keras import backend as k
-
+from keras import backend as K
 import tensorflow as tf
 import keras
 from keras.models import Sequential, Model
