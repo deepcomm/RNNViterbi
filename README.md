@@ -1,6 +1,15 @@
 # RNNViterbi
 
-Reference: Communication Algorithms via Deep Learning, ICLR 2018
+This is an example code for Lecture 1 in our blog deepcomm.github.io.  
+Reference paper: Communication Algorithms via Deep Learning, ICLR 2018
+
+### For installation of tensorflow and Keras (assuming you have python3): 
+
+``
+pip3 install --upgrade pip # Latest pip
+pip3 install tensorflow
+pip3 install keras
+``
 
 ### To execute testing with a pre-trained model, run 
 
