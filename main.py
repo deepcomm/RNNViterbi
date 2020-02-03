@@ -73,7 +73,7 @@ test_batch_size  = 100
 # Tx Encoder Parameters
 code_rate   =  2                     #  2,3
 
-k = 10000000                            # Number of total message bits for training. For training, set to 10000000. For testing, set to 1000000
+k = 2000000                            # Number of total message bits for training. For training, set to 10000000. For testing, set to 1000000
 step_of_history = 200                # Length of each message bit sequence
 k_test = 100000                        # Number of total message bits for testing. 
 
