@@ -93,8 +93,8 @@ print('The RNN has ', rx_direction, args.rx_type, 'with ', args.num_rx_layer, 'l
 print('*'*100)
 
 def errors(y_true, y_pred):
-    myOtherTensor = K.not_equal(K.round(y_true), K.round(y_pred))
-    return K.mean(tf.cast(myOtherTensor, tf.float32))
+    ErrorTensor = K.not_equal(K.round(y_true), K.round(y_pred))
+    return K.mean(tf.cast(ErrorTensor, tf.float32))
 
 # Setup LR decay
 def scheduler(epoch):
