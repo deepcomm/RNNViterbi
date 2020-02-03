@@ -3,7 +3,7 @@
 This is an example code for [Lecture 1](https://deepcomm.github.io/jekyll/pixyll/2020/02/01/learning-viterbi/) in our blog [deepcomm.github.io](https://deepcomm.github.io).  
 Reference paper: [Communication Algorithms via Deep Learning, ICLR 2018](https://openreview.net/pdf?id=ryazCMbR-)
 
-### For installation of tensorflow and Keras (assuming you have python3): 
+### Installation of tensorflow and Keras (assuming you have python3): 
 ``
 pip3 install tensorflow; pip3 install keras
 ``
@@ -17,7 +17,6 @@ python3 main.py
 ``
 python3 main.py --path_trained_model "MyTrainedModel.h5"
 ``
-
 
 ### To execute the training and testing, run 
 ``
