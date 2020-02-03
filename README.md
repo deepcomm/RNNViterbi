@@ -1,6 +1,6 @@
 # RNNViterbi
 
-This is an example code for Lecture 1 in our blog deepcomm.github.io.  
+This is an example code for [Lecture 1](https://deepcomm.github.io/jekyll/pixyll/2020/02/01/learning-viterbi/) in our blog [deepcomm.github.io](deepcomm.github.io).  
 Reference paper: Communication Algorithms via Deep Learning, ICLR 2018
 
 ### For installation of tensorflow and Keras (assuming you have python3): 
