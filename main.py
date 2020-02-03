@@ -73,9 +73,9 @@ test_batch_size  = 100
 # Tx Encoder Parameters
 code_rate   =  2                     #  2,3
 
-k = 2000000                            # Number of total message bits for training. For training, set to 10000000. For testing, set to 1000000
+k = 2000000                            # Number of total message bits for training. 
 step_of_history = 200                # Length of each message bit sequence
-k_test = 100000                        # Number of total message bits for testing. 
+k_test = 1000000                        # Number of total message bits for testing. 
 
 
 # Rx Decoder Parameters
@@ -210,10 +210,6 @@ bler_collect = []
 for idx in range(0,SNR_points):
     TestSNR = TestSNRS[idx] 
 
-    #generate_examples(k_test=k_test,step_of_history=step_of_history,SNR=TestSNR)
-    # exec(open('viterbi_test_ex_only_75.py').read())
-    #########################################
-
     noisy_codewords, true_messages, target = generate_examples(k_test=k_test,step_of_history=step_of_history,SNR=TestSNR) # target: true messages reshaped 
 
     estimated_message_bits = np.round(model.predict(noisy_codewords, batch_size=test_batch_size))
@@ -243,15 +239,27 @@ print('bler_collect')
 print(bler_collect)
 
 # Viterbi performance
+
 viterbi_snr_collect = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-viterbi_ber_collect = [0.09686600000000001, 0.04835100000000003, 0.018962999999999952, 0.005461000000000049, 0.0013250000000000206, 0.0003109999999999502, 5.999999999994898e-05]
-vitebi_bler_collect = [0.999, 0.9796, 0.8278, 0.4534, 0.1612, 0.046, 0.0106]
+viterbi_ber_collect = [0.09217699999999995, 0.04373000000000005, 0.01651400000000003, 0.004637000000000002, 0.0010160000000000169, 0.00017900000000004024, 2.999999999997449e-05]
+viterbi_bler_collect = [0.9982, 0.9678, 0.768, 0.3912, 0.1168, 0.0256, 0.0056]
 
 
-plt.plot(snr_collect,ber_collect,'r')
-plt.plot(viterbi_snr_collect,viterbi_ber_collect,'b')
+
+plt.plot(snr_collect,ber_collect,'r', label='NN BER')
+plt.plot(viterbi_snr_collect,viterbi_ber_collect,'b', label='Vitebi BER')
 plt.xlabel('SNR')
 plt.ylabel('BER')
-
+plt.legend(loc='upper right')
 plt.yscale('log')
 plt.show()
+
+
+plt.plot(snr_collect,bler_collect,'r', label='NN BLER')
+plt.plot(viterbi_snr_collect,viterbi_bler_collect,'b', label='Vitebi BLER')
+plt.xlabel('SNR')
+plt.ylabel('BLER')
+plt.legend(loc='upper right')
+plt.yscale('log')
+plt.show()
+
