@@ -221,20 +221,7 @@ for idx in range(0,SNR_points):
     ber = 1- sum(sum(estimated_message_bits == target))*\
            1.0/(target.shape[0] * target.shape[1] *target.shape[2])
 
-
-    prediction_mse = np.zeros(np.shape(estimated_message_bits))
-    sigma_all = np.ones(np.shape(estimated_message_bits))* test_sigmas[idx]
-
-    from sklearn.metrics import mean_squared_error
-
-    #compute loss
-    for i in range(len(estimated_message_bits)):
-        prediction_mse[i] = mean_squared_error(estimated_message_bits[i], target[i])
-        # noise_mse[i] = mean_squared_error()
-
-    err_rate = sum(sum(sum(abs(np.round(estimated_message_bits)-target))))*1.0/(target.shape[0]*target.shape[1])#
-    tp0 = (abs(np.round(estimated_message_bits)-target)).reshape([target.shape[0],target.shape[1]])
-    
+    tp0 = (abs(np.round(estimated_message_bits)-target)).reshape([target.shape[0],target.shape[1]])    
     bler = sum(np.sum(tp0,axis=1)>0)*1.0/(target.shape[0])# model.evaluate(X_feed_test, X_message_test, batch_size=10)
 
     print('*** SNR', TestSNR)
