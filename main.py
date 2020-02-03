@@ -241,13 +241,12 @@ print(bler_collect)
 # Viterbi performance
 
 viterbi_snr_collect = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
-viterbi_ber_collect = [0.09217699999999995, 0.04373000000000005, 0.01651400000000003, 0.004637000000000002, 0.0010160000000000169, 0.00017900000000004024, 2.999999999997449e-05]
-viterbi_bler_collect = [0.9982, 0.9678, 0.768, 0.3912, 0.1168, 0.0256, 0.0056]
+viterbi_ber_collect = [0.0929, 0.0431, 0.0151, 0.0040, 0.0008, 0.0002, 2.92e-05]
+viterbi_bler_collect = [0.9961, 0.9341, 0.6685, 0.2979, 0.0872, 0.0198, 0.0044]
 
 
-
-plt.plot(snr_collect,ber_collect,'r', label='NN BER')
-plt.plot(viterbi_snr_collect,viterbi_ber_collect,'b', label='Vitebi BER')
+plt.plot(snr_collect,ber_collect,'r', label='NN')
+plt.plot(viterbi_snr_collect,viterbi_ber_collect,'b', label='Vitebi')
 plt.xlabel('SNR')
 plt.ylabel('BER')
 plt.legend(loc='upper right')
@@ -255,8 +254,8 @@ plt.yscale('log')
 plt.show()
 
 
-plt.plot(snr_collect,bler_collect,'r', label='NN BLER')
-plt.plot(viterbi_snr_collect,viterbi_bler_collect,'b', label='Vitebi BLER')
+plt.plot(snr_collect,bler_collect,'r', label='NN')
+plt.plot(viterbi_snr_collect,viterbi_bler_collect,'b', label='Viterbi')
 plt.xlabel('SNR')
 plt.ylabel('BLER')
 plt.legend(loc='upper right')

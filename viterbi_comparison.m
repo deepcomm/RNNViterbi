@@ -8,8 +8,8 @@ TRELLIS = poly2trellis(constraint_length, [7 5]);
 
 close all;
 
-frameLength = 100; % Blocklength
-num_test = 1000;%000; % Number of blocks to test
+frameLength = 200; % Blocklength
+num_test = 50000;%000; % Number of blocks to test
 
 code_rate = 2; % Coding Rate
 
@@ -59,7 +59,7 @@ for idx = 1:SNR_points
     for counter = 1:num_test
         data = randi([0 1],frameLength,1);
         
-        encodedData = hConEnc(data);
+        encodedData = step(hConEnc, data);
         noisy_encodedData = 2*encodedData-1 + test_sigmas(idx)*randn(size(encodedData));
         if tail == true 
             noisy_received=reshape(noisy_encodedData,[code_rate,frameLength+constraint_length-1])';
